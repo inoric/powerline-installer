@@ -5,6 +5,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+checkInstalled() {
+        local package_name=$1
+        echo $(dpkg-query -W -f='${Status}' $package_name 2>/dev/null | grep -c "ok installed")
+}
+
+
 apt-get update
 apt-get -y install python-pip git vim
 pip install git+git://github.com/Lokaltog/powerline
